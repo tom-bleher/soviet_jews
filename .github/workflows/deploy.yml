@@ -31,7 +31,7 @@ jobs:
         run: |
           mkdir -p _site/statistical_areas_2022
           cp index.html _site/
-          cp statistical_areas_2022/statistical_areas.pmtiles _site/statistical_areas_2022/
+          cp statistical_areas_2022/areas.topojson _site/statistical_areas_2022/
           cp statistical_areas_2022/top_areas.json _site/statistical_areas_2022/
 
       - name: Upload artifact

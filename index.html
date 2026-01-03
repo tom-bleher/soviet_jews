@@ -52,7 +52,7 @@
       padding: 10px 14px;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       font-size: 13px;
-      z-index: 1;
+      z-index: 1000;
     }
 
     .color-mode-selector select {
@@ -85,7 +85,8 @@
     .dropdown-menu {
       display: none;
       position: absolute;
-      top: 100%;
+      bottom: 100%;
+      top: auto;
       left: 0;
       right: 0;
       max-height: 300px;
@@ -95,7 +96,7 @@
       border-radius: 4px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.15);
       z-index: 100;
-      margin-top: 2px;
+      margin-bottom: 2px;
     }
 
     .dropdown-menu.open {
@@ -343,40 +344,14 @@
     let currentMode = 'ussr_origin_pct';
     let topAreasData = {};
 
-    // Load GeoJSON for top areas calculation
-    fetch('statistical_areas_2022/statistical_areas.geojson')
+    // Load pre-computed top areas data (much smaller than full GeoJSON)
+    fetch('statistical_areas_2022/top_areas.json')
       .then(r => r.json())
-      .then(geojson => {
-        // Pre-calculate top 5 for each mode
-        for (const mode of Object.keys(colorModes)) {
-          const field = colorModes[mode].field;
-          const sorted = geojson.features
-            .filter(f => f.properties[field] > 0)
-            .map(f => ({
-              name: f.properties.SHEM_YIS_1 || f.properties.SHEM_YISHU || 'Unknown',
-              value: f.properties[field],
-              center: getCentroid(f.geometry)
-            }))
-            .sort((a, b) => b.value - a.value)
-            .slice(0, 20);
-          topAreasData[mode] = sorted;
-        }
+      .then(data => {
+        topAreasData = data;
         updateTopAreas('ussr_origin_pct');
-      });
-
-    function getCentroid(geometry) {
-      let coords = [];
-      if (geometry.type === 'Polygon') {
-        coords = geometry.coordinates[0];
-      } else if (geometry.type === 'MultiPolygon') {
-        coords = geometry.coordinates[0][0];
-      }
-      let x = 0, y = 0;
-      for (const [lng, lat] of coords) {
-        x += lng; y += lat;
-      }
-      return [x / coords.length, y / coords.length];
-    }
+      })
+      .catch(err => console.error('Failed to load top areas:', err));
 
     function updateTopAreas(mode) {
       const list = document.getElementById('topAreasList');

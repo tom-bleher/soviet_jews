@@ -25,7 +25,19 @@ SOVIET_COUNTRIES = {
 }
 
 GEOJSON_PATH = Path("statistical_areas_2022/statistical_areas.geojson")
+TOP_AREAS_PATH = Path("statistical_areas_2022/top_areas.json")
 CENSUS_PATH = Path("data/census_stat_areas.csv")
+
+# Color modes that need top areas computed
+COLOR_MODES = [
+    "soviet_origin_pct", "soviet_birth_pct",
+    "russia_origin_pct", "russia_birth_pct",
+    "ussr_origin_pct", "ussr_birth_pct",
+    "ukraine_origin_pct", "ukraine_birth_pct",
+    "uzbekistan_origin_pct", "uzbekistan_birth_pct",
+    "belarus_origin_pct", "belarus_birth_pct",
+    "moldova_origin_pct", "moldova_birth_pct",
+]
 
 
 def match_soviet_country(country_name):
@@ -114,7 +126,7 @@ def load_census_data():
 
 
 def update_geojson(country_data):
-    """Update GeoJSON with country data, return match count."""
+    """Update GeoJSON with country data, return (geojson, match_count)."""
     with GEOJSON_PATH.open() as f:
         geojson = json.load(f)
 
@@ -134,7 +146,42 @@ def update_geojson(country_data):
     with GEOJSON_PATH.open("w") as f:
         json.dump(geojson, f)
 
-    return matched
+    return geojson, matched
+
+
+def get_centroid(geometry):
+    """Calculate centroid of a geometry."""
+    coords = []
+    if geometry["type"] == "Polygon":
+        coords = geometry["coordinates"][0]
+    elif geometry["type"] == "MultiPolygon":
+        coords = geometry["coordinates"][0][0]
+    if not coords:
+        return [0, 0]
+    x = sum(c[0] for c in coords) / len(coords)
+    y = sum(c[1] for c in coords) / len(coords)
+    return [round(x, 6), round(y, 6)]
+
+
+def compute_top_areas(geojson):
+    """Compute top 20 areas for each color mode."""
+    top_areas = {}
+    for mode in COLOR_MODES:
+        areas = []
+        for feature in geojson["features"]:
+            props = feature["properties"]
+            value = props.get(mode, 0)
+            if value and value > 0:
+                name = props.get("SHEM_YIS_1") or props.get("SHEM_YISHU") or "Unknown"
+                center = get_centroid(feature["geometry"])
+                areas.append({
+                    "name": name,
+                    "value": round(value, 2),
+                    "center": center,
+                })
+        areas.sort(key=lambda x: x["value"], reverse=True)
+        top_areas[mode] = areas[:20]
+    return top_areas
 
 
 def print_stats(country_data):
@@ -164,8 +211,14 @@ def main():
     country_data = load_census_data()
     print(f"Processed {len(country_data)} census rows")
 
-    matched = update_geojson(country_data)
+    geojson, matched = update_geojson(country_data)
     print(f"Matched {matched} features in GeoJSON")
+
+    # Compute and save top areas for each color mode
+    top_areas = compute_top_areas(geojson)
+    with TOP_AREAS_PATH.open("w") as f:
+        json.dump(top_areas, f)
+    print(f"Saved top areas to {TOP_AREAS_PATH}")
 
     print_stats(country_data)
 

@@ -248,10 +248,6 @@
       true // lazy load
     );
 
-    // Register PMTiles protocol
-    const protocol = new pmtiles.Protocol();
-    maplibregl.addProtocol('pmtiles', protocol.tile);
-
     // Color mode configurations - all use red color scale
     const redColors = ['#fff5f0', '#fee0d2', '#fc9272', '#fb6a4a', '#de2d26', '#a50f15'];
     const colorModes = {

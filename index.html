@@ -414,9 +414,12 @@
 
     // Add statistical areas layer after base map loads
     map.on('load', () => {
+      // Construct absolute URL for PMTiles (required for proper resolution)
+      const pmtilesUrl = new URL('statistical_areas_2022/statistical_areas.pmtiles', window.location.href).href;
+
       map.addSource('statistical-areas', {
         type: 'vector',
-        url: 'pmtiles://statistical_areas_2022/statistical_areas.pmtiles'
+        url: 'pmtiles://' + pmtilesUrl
       });
 
       // Find the first label layer to insert our layers below it

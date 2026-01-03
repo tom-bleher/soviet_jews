@@ -1,0 +1,28 @@
+[project]
+name = "soviet-jews"
+version = "0.1.0"
+description = "Add your description here"
+requires-python = ">=3.12"
+dependencies = [
+    "openpyxl>=3.1.5",
+    "pandas>=2.3.3",
+    "pmtiles>=3.5.0",
+]
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+
+[tool.ruff.lint]
+select = [
+    "ALL",  # Enable all rules
+]
+ignore = [
+    "D",      # pydocstyle - skip docstring requirements
+    "ANN",    # flake8-annotations - skip type annotation requirements
+    "COM812", # trailing comma - conflicts with formatter
+    "ISC001", # single-line implicit string concat - conflicts with formatter
+    "RUF001", # ambiguous unicode - false positives for Hebrew
+    "RUF003", # ambiguous unicode in comments - false positives for Hebrew
+    "T201",   # print statements - intentional for CLI output
+]

@@ -37,6 +37,12 @@ COLOR_MODES = [
     "uzbekistan_origin_pct", "uzbekistan_birth_pct",
     "belarus_origin_pct", "belarus_birth_pct",
     "moldova_origin_pct", "moldova_birth_pct",
+    # Demographic modes
+    "population", "median_age", "elderly_pct",
+    # Absolute counts
+    "soviet_origin_count", "soviet_birth_count",
+    # Survivor finder (combined score)
+    "survivor_score",
 ]
 
 
@@ -79,7 +85,23 @@ def init_entry():
     """Initialize an entry with all countries set to 0."""
     entry = {f"{c}_origin_pct": 0.0 for c in SOVIET_COUNTRIES}
     entry.update({f"{c}_birth_pct": 0.0 for c in SOVIET_COUNTRIES})
+    # Add demographic fields
+    entry["population"] = 0
+    entry["median_age"] = 0.0
+    entry["elderly_pct"] = 0.0
+    entry["soviet_origin_count"] = 0
+    entry["soviet_birth_count"] = 0
+    entry["survivor_score"] = 0.0
     return entry
+
+
+def parse_float(val):
+    """Safely parse a float value."""
+    if val is None or val == "":
+        return None
+    with contextlib.suppress(ValueError, TypeError):
+        return float(val)
+    return None
 
 
 def process_row(row):
@@ -89,6 +111,24 @@ def process_row(row):
         return None
 
     entry = init_entry()
+
+    # Extract demographic data
+    # Col 20: Total population
+    population = parse_float(row[20]) if len(row) > 20 else None
+    entry["population"] = int(population) if population else 0
+
+    # Col 26: Median age
+    median_age = parse_float(row[26]) if len(row) > 26 else None
+    entry["median_age"] = round(median_age, 1) if median_age else 0.0
+
+    # Elderly percentage: sum of cols 39, 40 (male 65-74, 75+) and 48, 49 (female 65-74, 75+)
+    elderly_pct = 0.0
+    for col in [39, 40, 48, 49]:
+        if len(row) > col:
+            val = parse_float(row[col])
+            if val:
+                elderly_pct += val
+    entry["elderly_pct"] = round(elderly_pct, 1)
 
     # Origin columns (4 countries): cols 61,62,63,64,65,66,67,68
     for i in range(4):
@@ -102,13 +142,30 @@ def process_row(row):
         if key:
             entry[key] = val
 
-    # Calculate aggregate soviet totals
+    # Calculate aggregate soviet totals (percentages)
     entry["soviet_origin_pct"] = sum(
         entry.get(f"{c}_origin_pct", 0) for c in SOVIET_COUNTRIES
     )
     entry["soviet_birth_pct"] = sum(
         entry.get(f"{c}_birth_pct", 0) for c in SOVIET_COUNTRIES
     )
+
+    # Calculate absolute counts
+    if entry["population"] > 0:
+        entry["soviet_origin_count"] = int(
+            entry["population"] * entry["soviet_origin_pct"] / 100
+        )
+        entry["soviet_birth_count"] = int(
+            entry["population"] * entry["soviet_birth_pct"] / 100
+        )
+
+    # Calculate survivor score: combines elderly % and Soviet birth %
+    # Higher score = more likely to find Stalinist-era survivors
+    # Formula: (elderly_pct * soviet_birth_pct) / 100, weighted by having both
+    if entry["elderly_pct"] > 0 and entry["soviet_birth_pct"] > 0:
+        entry["survivor_score"] = round(
+            (entry["elderly_pct"] * entry["soviet_birth_pct"]) / 10, 1
+        )
 
     return yishuv_sta, entry
 
@@ -140,8 +197,6 @@ def update_geojson(country_data):
             matched += 1
         else:
             props.update(init_entry())
-            props["soviet_origin_pct"] = 0.0
-            props["soviet_birth_pct"] = 0.0
 
     with GEOJSON_PATH.open("w") as f:
         json.dump(geojson, f)
@@ -174,11 +229,18 @@ def compute_top_areas(geojson):
             if value and value > 0:
                 name = props.get("SHEM_YIS_1") or props.get("SHEM_YISHU") or "Unknown"
                 center = get_centroid(feature["geometry"])
-                areas.append({
+                area_data = {
                     "name": name,
-                    "value": round(value, 2),
+                    "value": round(value, 2) if isinstance(value, float) else value,
                     "center": center,
-                })
+                }
+                # Add extra context for survivor-related modes
+                if mode in ["survivor_score", "soviet_birth_count", "soviet_origin_count"]:
+                    area_data["population"] = props.get("population", 0)
+                    area_data["elderly_pct"] = props.get("elderly_pct", 0)
+                    area_data["soviet_birth_pct"] = props.get("soviet_birth_pct", 0)
+                    area_data["median_age"] = props.get("median_age", 0)
+                areas.append(area_data)
         areas.sort(key=lambda x: x["value"], reverse=True)
         top_areas[mode] = areas[:20]
     return top_areas

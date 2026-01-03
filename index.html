@@ -268,6 +268,18 @@
         <div class="dropdown-item" data-value="soviet_origin_pct"><span class="soviet-flag"></span> USSR + Post-Soviet Origin %</div>
         <div class="dropdown-item" data-value="soviet_birth_pct"><span class="soviet-flag"></span> USSR + Post-Soviet Birth %</div>
 
+        <div class="dropdown-group-label">Absolute Counts</div>
+        <div class="dropdown-item" data-value="soviet_origin_count"><span class="soviet-flag"></span> Soviet Origin (count)</div>
+        <div class="dropdown-item" data-value="soviet_birth_count"><span class="soviet-flag"></span> Soviet Birth (count)</div>
+
+        <div class="dropdown-group-label">Demographics</div>
+        <div class="dropdown-item" data-value="population"><span class="flag">👥</span> Population</div>
+        <div class="dropdown-item" data-value="median_age"><span class="flag">📅</span> Median Age</div>
+        <div class="dropdown-item" data-value="elderly_pct"><span class="flag">👴</span> Elderly (65+) %</div>
+
+        <div class="dropdown-group-label">Survivor Finder</div>
+        <div class="dropdown-item" data-value="survivor_score"><span class="flag">🔍</span> Survivor Score</div>
+
       </div>
     </div>
     <div class="legend-bar" id="legendBar"></div>
@@ -375,6 +387,56 @@
         max: 12,
         colors: redColors,
         stops: [0, 2, 4, 6, 8, 12]
+      },
+      // Demographic modes
+      'population': {
+        field: 'population',
+        max: 10000,
+        colors: ['#f7fcf5', '#c7e9c0', '#74c476', '#31a354', '#006d2c', '#00441b'],
+        stops: [0, 2000, 4000, 6000, 8000, 10000],
+        unit: '',
+        formatValue: v => v.toLocaleString()
+      },
+      'median_age': {
+        field: 'median_age',
+        max: 60,
+        colors: ['#ffffcc', '#c7e9b4', '#7fcdbb', '#41b6c4', '#2c7fb8', '#253494'],
+        stops: [20, 30, 40, 45, 50, 60],
+        unit: ' years',
+        formatValue: v => v.toFixed(0)
+      },
+      'elderly_pct': {
+        field: 'elderly_pct',
+        max: 50,
+        colors: ['#feebe2', '#fcc5c0', '#fa9fb5', '#f768a1', '#c51b8a', '#7a0177'],
+        stops: [0, 10, 20, 30, 40, 50],
+        unit: '%'
+      },
+      // Absolute counts
+      'soviet_origin_count': {
+        field: 'soviet_origin_count',
+        max: 3000,
+        colors: redColors,
+        stops: [0, 500, 1000, 1500, 2000, 3000],
+        unit: '',
+        formatValue: v => v.toLocaleString()
+      },
+      'soviet_birth_count': {
+        field: 'soviet_birth_count',
+        max: 3000,
+        colors: redColors,
+        stops: [0, 500, 1000, 1500, 2000, 3000],
+        unit: '',
+        formatValue: v => v.toLocaleString()
+      },
+      // Survivor finder
+      'survivor_score': {
+        field: 'survivor_score',
+        max: 300,
+        colors: ['#fff5eb', '#fee6ce', '#fdd0a2', '#fdae6b', '#f16913', '#8c2d04'],
+        stops: [0, 50, 100, 150, 200, 300],
+        unit: '',
+        formatValue: v => v.toFixed(0)
       }
     };
 
@@ -393,10 +455,31 @@
     function updateTopAreas(mode) {
       const list = document.getElementById('topAreasList');
       const areas = topAreasData[mode] || [];
+      const config = colorModes[mode];
       document.querySelector('.top-areas-title').textContent = `Top ${areas.length} areas:`;
+
+      // Format value based on mode
+      const formatValue = (a) => {
+        if (config.formatValue) {
+          return config.formatValue(a.value);
+        }
+        return a.value.toFixed(1) + (config.unit || '%');
+      };
+
+      // Add extra context for survivor-related modes
+      const formatExtra = (a) => {
+        if (mode === 'survivor_score' && a.elderly_pct !== undefined) {
+          return `<br><small style="color:#888">Pop: ${a.population?.toLocaleString() || '?'}, Elderly: ${a.elderly_pct}%, Soviet: ${a.soviet_birth_pct}%</small>`;
+        }
+        if ((mode === 'soviet_origin_count' || mode === 'soviet_birth_count') && a.population !== undefined) {
+          return `<br><small style="color:#888">Pop: ${a.population?.toLocaleString() || '?'}</small>`;
+        }
+        return '';
+      };
+
       list.innerHTML = areas.map((a, i) =>
-        `<button class="top-area-btn" data-lng="${a.center[0]}" data-lat="${a.center[1]}">
-          ${i + 1}. ${a.name} <span class="pct">${a.value.toFixed(1)}%</span>
+        `<button class="top-area-btn" data-lng="${a.center[0]}" data-lat="${a.center[1]}" style="text-align:left">
+          ${i + 1}. ${a.name} <span class="pct">${formatValue(a)}</span>${formatExtra(a)}
         </button>`
       ).join('');
 
@@ -435,7 +518,22 @@
 
     function updateLegend(mode) {
       const config = colorModes[mode];
-      document.getElementById('legendMax').textContent = config.max + '%';
+      const unit = config.unit !== undefined ? config.unit : '%';
+      const minVal = config.stops[0];
+      const maxVal = config.max;
+
+      // Format values for legend
+      let minText, maxText;
+      if (config.formatValue) {
+        minText = config.formatValue(minVal);
+        maxText = config.formatValue(maxVal);
+      } else {
+        minText = minVal + unit;
+        maxText = maxVal + unit;
+      }
+
+      document.getElementById('legendMin').textContent = minText;
+      document.getElementById('legendMax').textContent = maxText;
       const gradient = config.colors.join(', ');
       document.getElementById('legendBar').style.background = `linear-gradient(to right, ${gradient})`;
     }
@@ -513,10 +611,31 @@
             // Build popup content
             let html = `<div class="popup-title">${props.SHEM_YISHU || props.SHEM_YIS_1 || 'Statistical Area'}</div>`;
 
+            // Demographic fields
+            const demoFields = [
+              ['population', '👥 Population', v => v.toLocaleString()],
+              ['median_age', '📅 Median Age', v => v.toFixed(0) + ' years'],
+              ['elderly_pct', '👴 Elderly (65+)', v => v.toFixed(1) + '%'],
+              ['survivor_score', '🔍 Survivor Score', v => v.toFixed(0)]
+            ];
+
+            for (const [key, label, format] of demoFields) {
+              const val = props[key];
+              if (val !== undefined && val !== null && val > 0) {
+                html += `<div class="popup-row">
+                  <span class="popup-label">${label}:</span>
+                  <span class="popup-value">${format(val)}</span>
+                </div>`;
+              }
+            }
+
+            // Separator
+            html += '<div style="border-top: 1px solid #eee; margin: 4px 0;"></div>';
+
             const fields = [
-              ['SHEM_YIS_1', 'English Name'],
-              ['soviet_origin_pct', 'USSR + Post-Soviet Origin'],
-              ['soviet_birth_pct', 'USSR + Post-Soviet Birth'],
+              ['soviet_origin_pct', 'Soviet Origin %'],
+              ['soviet_birth_pct', 'Soviet Birth %'],
+              ['soviet_origin_count', 'Soviet Origin (count)', v => v.toLocaleString()],
               ['russia_origin_pct', '🇷🇺 Russia Origin'],
               ['russia_birth_pct', '🇷🇺 Russia Birth'],
               ['ukraine_origin_pct', '🇺🇦 Ukraine Origin'],
@@ -531,12 +650,20 @@
               ['moldova_birth_pct', '🇲🇩 Moldova Birth']
             ];
 
-            for (const [key, label] of fields) {
+            for (const [key, label, format] of fields) {
               const val = props[key];
               // Skip zero values for country-specific fields
               if (key.includes('_pct') && key !== 'soviet_origin_pct' && key !== 'soviet_birth_pct' && (!val || val === 0)) continue;
+              if (key.includes('_count') && (!val || val === 0)) continue;
               if (val !== undefined && val !== null) {
-                const value = key.includes('perc') || key.includes('pct') ? val.toFixed(1) + '%' : val;
+                let value;
+                if (format) {
+                  value = format(val);
+                } else if (key.includes('pct')) {
+                  value = val.toFixed(1) + '%';
+                } else {
+                  value = val;
+                }
                 html += `<div class="popup-row">
                   <span class="popup-label">${label}:</span>
                   <span class="popup-value">${value}</span>

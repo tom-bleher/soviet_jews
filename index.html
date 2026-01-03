@@ -234,7 +234,7 @@
       <span id="legendMax">30%</span>
     </div>
     <div class="top-areas">
-      <div class="top-areas-title">Top 20 areas:</div>
+      <div class="top-areas-title">Top areas:</div>
       <div id="topAreasList" class="top-areas-list"></div>
     </div>
   </div>
@@ -351,7 +351,7 @@
         for (const mode of Object.keys(colorModes)) {
           const field = colorModes[mode].field;
           const sorted = geojson.features
-            .filter(f => f.properties[field] != null)
+            .filter(f => f.properties[field] > 0)
             .map(f => ({
               name: f.properties.SHEM_YIS_1 || f.properties.SHEM_YISHU || 'Unknown',
               value: f.properties[field],

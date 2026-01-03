@@ -12,6 +12,43 @@
     body { margin: 0; padding: 0; }
     #map { position: absolute; top: 0; bottom: 0; width: 100%; }
 
+    /* Loading overlay */
+    #loading {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #f8f9fa;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.3s ease;
+    }
+    #loading.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 4px solid #e0e0e0;
+      border-top-color: #de2d26;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .loading-text {
+      margin-top: 16px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 14px;
+      color: #666;
+    }
+
     .maplibregl-popup-content {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       font-size: 13px;
@@ -201,6 +238,10 @@
   </style>
 </head>
 <body>
+  <div id="loading">
+    <div class="spinner"></div>
+    <div class="loading-text">Loading map data...</div>
+  </div>
   <div id="map"></div>
 
   <div class="color-mode-selector">
@@ -450,6 +491,9 @@
               'line-width': 0.5
             }
           }, firstLabelLayer);
+
+          // Hide loading screen
+          document.getElementById('loading').classList.add('hidden');
 
           // Change cursor on hover
           map.on('mouseenter', 'statistical-areas-fill', () => {

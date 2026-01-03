@@ -4,8 +4,7 @@ version = "0.1.0"
 description = "Add your description here"
 requires-python = ">=3.12"
 dependencies = [
-    "openpyxl>=3.1.5",
-    "pandas>=2.3.3",
+    "polars>=1.0.0",
     "pmtiles>=3.5.0",
 ]
 

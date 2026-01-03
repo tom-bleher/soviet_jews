@@ -2,7 +2,7 @@ import contextlib
 import json
 from pathlib import Path
 
-import pandas as pd
+import polars as pl
 
 # Soviet/post-Soviet countries with Hebrew names and flag emojis
 SOVIET_COUNTRIES = {
@@ -25,12 +25,12 @@ SOVIET_COUNTRIES = {
 }
 
 GEOJSON_PATH = Path("statistical_areas_2022/statistical_areas.geojson")
-CENSUS_PATH = Path("data/census_stat_areas.xlsx")
+CENSUS_PATH = Path("data/census_stat_areas.csv")
 
 
 def match_soviet_country(country_name):
     """Match a Hebrew country name to a Soviet country key."""
-    if not country_name or pd.isna(country_name):
+    if not country_name:
         return None
     country_name = str(country_name).strip()
     for key, info in SOVIET_COUNTRIES.items():
@@ -41,7 +41,7 @@ def match_soviet_country(country_name):
 
 def parse_yishuv_sta(semel, stat_area):
     """Parse settlement code and stat area into YISHUV_STA key."""
-    if pd.isna(semel) or pd.isna(stat_area):
+    if semel is None or stat_area is None:
         return None
     with contextlib.suppress(ValueError, TypeError):
         semel_int = int(float(semel))
@@ -54,10 +54,10 @@ def extract_country_pct(row, country_col, pct_col, suffix):
     """Extract country percentage from a row if valid."""
     if country_col >= len(row) or pct_col >= len(row):
         return None, None
-    country_name = row.iloc[country_col]
-    pct = row.iloc[pct_col]
+    country_name = row[country_col]
+    pct = row[pct_col]
     country_key = match_soviet_country(country_name)
-    if country_key and pd.notna(pct):
+    if country_key and pct is not None:
         with contextlib.suppress(ValueError, TypeError):
             return f"{country_key}_{suffix}", float(pct)
     return None, None
@@ -72,7 +72,7 @@ def init_entry():
 
 def process_row(row):
     """Process a single census row and return (yishuv_sta, entry) or None."""
-    yishuv_sta = parse_yishuv_sta(row.iloc[1], row.iloc[2])
+    yishuv_sta = parse_yishuv_sta(row[1], row[2])
     if not yishuv_sta:
         return None
 
@@ -103,11 +103,9 @@ def process_row(row):
 
 def load_census_data():
     """Load and parse census data into country_data dict."""
-    df = pd.read_excel(
-        CENSUS_PATH, sheet_name="אזורים סטיסטיים", header=[0, 1]
-    )
+    df = pl.read_csv(CENSUS_PATH, has_header=False, infer_schema=False)
     country_data = {}
-    for _idx, row in df.iterrows():
+    for row in df.iter_rows():
         result = process_row(row)
         if result:
             yishuv_sta, entry = result

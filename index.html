@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Soviet Jew Finder</title>
+  <link rel="icon" href="data:image/webp;base64,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">
+  <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+  <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet" />
+  <script src="https://unpkg.com/pmtiles@3.2.0/dist/pmtiles.js"></script>
+  <style>
+    body { margin: 0; padding: 0; }
+    #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+
+    .maplibregl-popup-content {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 13px;
+      padding: 10px 12px;
+      max-width: 240px;
+    }
+
+    .popup-title {
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 6px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 5px;
+    }
+
+    .popup-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 2px 0;
+      font-size: 12px;
+    }
+
+    .popup-label {
+      color: #666;
+    }
+
+    .popup-value {
+      font-weight: 500;
+    }
+
+    .color-mode-selector {
+      position: absolute;
+      bottom: 30px;
+      left: 10px;
+      background: #fff;
+      border-radius: 6px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+      padding: 10px 14px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 13px;
+      z-index: 1;
+    }
+
+    .color-mode-selector select {
+      display: none;
+    }
+
+    /* Custom dropdown */
+    .custom-dropdown {
+      position: relative;
+      width: 100%;
+      min-width: 220px;
+    }
+
+    .dropdown-selected {
+      padding: 6px 28px 6px 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 13px;
+      cursor: pointer;
+      background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M2 4l4 4 4-4'/%3E%3C/svg%3E") no-repeat right 8px center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .dropdown-selected:hover {
+      border-color: #bbb;
+    }
+
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      max-height: 300px;
+      overflow-y: auto;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      z-index: 100;
+      margin-top: 2px;
+    }
+
+    .dropdown-menu.open {
+      display: block;
+    }
+
+    .dropdown-group-label {
+      padding: 6px 8px 4px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #888;
+      background: #f9f9f9;
+    }
+
+    .dropdown-item {
+      padding: 6px 8px;
+      cursor: pointer;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+    }
+
+    .dropdown-item:hover {
+      background: #f0f0f0;
+    }
+
+    .dropdown-item.selected {
+      background: #e8f0fe;
+    }
+
+    .dropdown-item .flag {
+      margin-right: 6px;
+      font-size: 15px;
+    }
+
+    .dropdown-item .soviet-flag {
+      flex-shrink: 0;
+    }
+
+    .top-areas {
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 1px solid #eee;
+    }
+
+    .top-areas-title {
+      font-size: 11px;
+      color: #888;
+      margin-bottom: 4px;
+    }
+
+    .top-areas-list {
+      max-height: 180px;
+      overflow-y: auto;
+    }
+
+    .top-area-btn {
+      display: block;
+      width: 100%;
+      padding: 4px 6px;
+      margin: 2px 0;
+      border: none;
+      background: #f5f5f5;
+      border-radius: 3px;
+      font-size: 11px;
+      cursor: pointer;
+      text-align: left;
+      color: #333;
+    }
+
+    .top-area-btn:hover {
+      background: #e8e8e8;
+    }
+
+    .top-area-btn .pct {
+      float: right;
+      color: #666;
+    }
+
+    .legend-bar {
+      height: 10px;
+      border-radius: 2px;
+      margin: 10px 0 4px 0;
+    }
+
+    .legend-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: #666;
+    }
+
+    /* Soviet flag emoji */
+    .soviet-flag {
+      display: inline-block;
+      width: 1.3em;
+      height: 1.3em;
+      vertical-align: middle;
+      margin-right: 4px;
+      background: url("data:image/webp;base64,UklGRloKAABXRUJQVlA4WAoAAAAQAAAAnwAAnwAAQUxQSBYCAAABkABJkmlb+2zbtm3j27Zt27Zt2/Z/tm3b9pvvf7DPiogJQH3+73TMIWk2esacRSvWb9l16PiedQsmDbE3UBJjbAWwS+sPXXLolltSNRBYXxF6b+8UE/EWSsh44IJ9d77ElgP5xb6PNlkztSh8ljNOuWUAxaPOjhFtEfjMZh9xSwea5r1Ypok1IeO5x78VAM2bxmBK2GzW2c8FgMXFREgL0UvQesbZbzmAz1lE7Mo8P0aIHryWs4+5pQNmiQGAgidLVCnFJGQ898j3bMAxIVvhj02eB2dZSJEmpO4wY/vFd5ElgG0y/lgR+GTvBFMFcR6G/+FVtRm34fzLwBzAPul/LstJCvP+/OTK0eMXrt97+uazm29yNbSUFGnR+/zXCWJmr/dm9fmvY6+5tqa6sry0uDC/rLF1UZYa9OLsptkD9dVUleRlJMUE+aV17YZOX7r9+N2gopasOjXg3eUdc4aaybMjEsUdZh3/mNjy5H67tNheVQBRlktv9KXUlqIh+cWh6UZiiIa8rgfDAGAhEQexURx6a/0IZQ5EZ+ONwdOIWICDNLcz85zEEBZZiECmW9ya6VMf+WzfOBMehH2tlW8qqVfuf2PjIHU21GJKzb4eWESR2tzwd6cW20iiFljQes6Rz8lNRDXlx3ncPbh8gq0yNwNq0Vl1B4yas+7AxadfAwN9vdy/ffn47vmZ9VP664mhPv93MgZWUDggHggAAPAwAJ0BKqAAoAA+GQyEQaEEFwFrBABhKbt6wDiyeK/f8F+SX5AfM/X/7v+FvyL6sw4vbP+d+7v5kf37/Yfkd8oPzD/p/cA/Sj/J/kl25f5r/ZPUZ/F/6v/kv8T74vpE/yXqAfzz+Rekd7LXoAfsB6Uv/I/sHwdfsp+xHwM/zb+tf9XgAIs7mgNm9kg/Y3RgMjZ0RPRH+z9wP+P/0b/bcBX+sxGCHntTbzNeARVzhdxDHx82J8EmLmEn3Wzm2iatr4G4CWNasTnPQDLBQVqZdgsz/KOvj0sKlfgxXShYMfP4xqH95RkLRmrRlqQNWXZhXj20b8KEtT8b7ginmHuc4prRvsjhxZpceFPOhYNky6M43M2pMf9cxh1Yfwe3ktDRm+enLzMmdbW3C2JI+Ln5qhRz+7Qo2R2xA4zeU7jQz+fnj+HllFXGUqKoqbAyZVN+w0a0Jr1PG7PDEFsB0JWj90BmdsijBW/3337t3IfxgT281elOVft7KAkkibMad5wKZ096UPctescZyfhBhXPz2UAA/v+rUIAAA8///GJBfbhCKxv08UWCrYw+ge5Jx//wMs/GgGWV94HVUGcD3B67gvcFnuXBJGSk1YBejSOIakERHyHEA0G2YkN8GyANSRpeTHZ65P3erB4SStvFrcujwy//+L9XMjq8/ubNBpK1QzgI+x/8z2BWVDHIsE1GYKMOnyE87F2Wmhfp1LENiozDhehgvip/Yt6BKf8WDnV4hj+5l/+bbBIuwR07b6VyttEigWVgf7k9OvGTZ8PHSKHSuH/8ZiZyDL++qSqpX3mZ13qHVNMzvgzmcZEM+VKAH6kXB20d9DIf+bHGfIf//8OOxD8umDFyc0eVA6HB7I01P+WdxeJUuqHPn/lhVi15ykfv3X+qkHmxg68WrVFD3dc9mFErc1VAVjt6aEMFWz0grgI1BYztnLWNejWs30+Iyr/sYFe2msHJ1j1+j7fxoJMrHolIfRMgiiMPGBJ2B3kdsZ8fztDtT4kQe4v8VkECrx1k99TWiNMEDRc/68lQJLNzqCUoNNx5Wv0BVQsHJNldyg5xpPlifeWvO0vTMEjoOdRKYwn+hs7UvGx+GlvesSdXbfwNWuPnahyslb3JFKBNdi6ggPatMtGjzcLPxDgWjsa+ksYFr9u8ZhHTqcpF1qQJYM9HAnYxtqkjWx+OQQ+j5N+AoqO3UaYB7sNRz4AwWF+5ZoaHX3ZfddEq1ElTRud+XfLlfJNfrV8pA3C1mtjP5mJbOjc+7zx5Nl0przl+oxeHtJx6KN7F3+X2UsQ8DgtW2D1igMfDO+XbIm9T4s1eSUywcTZrv+1AOV3/87/MCw253Ztze3FvO0ny7ft0sCKmguuoM1K7QrtMWfS3G23T/fR6n/mkD4509oFxh+L7DlqyjLpE8BMQLAcQGtevPE86W1jeb8yS+l/12luNLOiI0QICAW674cKkfiBr/s/wmsQpdoPDon+7PJDM8JdFp8nIokWtYeqHr2UxqK3NHPOYZLwOL6Dl+dVtMRdVelnqrBOWcnr+wImqBu9a0jiIIBQqIPAjMaAoMpfGtpG77sBo5/hRpu6eD2lupmMUw/00UZGZsHZoH/qpPTHrketsOpFqddRsZOxHH89uEmRAq7aIgc7f976tP/6PPhr+shp0CygM0OCt4/94btXAP+C7rT2VIeCcG3/SFpgXDqpJm603pjgnnNI86FsETCdhf5PNrK/p95RE1uaf5YdFn/ww/zas5Y26xzpY2I32w4RH27NblgM4535z5DNWP1ApQwt9jeC7rkt1p0qlRW8xxRZ4Y+6LoPIc+u0XOK2CGPdM75L/+/7T64Xkl3Emsn7/Ir8Na9NkT2t2l/97I2MCZSZzucxZX/Qsgiwk3fLVw3jhl4iWSvZK8cvNIVbTLovAjObzh+ZPXluFmM//4JdJK6h8b02Yg5G2W0iD4kg9O1WzcApvoar3EFFCCLRxHNUbiU///1poqfF20FtqHFdEvazC14/CWiKwdLl1zHdz0kmCL/vk24dThiitPkqjtRR//emi9bPfn/xU2DHT92l+mYwpJt/3e+HFMvMkJAktzqQXXZv34naVIkuUFHnAH5ZkNFdpoJWUHZ3Tf8QPiDavYOVhJ8185imn4FG2hrAAGEKfPKPGJHwqt+ALm7gr8iMB5tS2E3oH7pq9oXOmsQ3nTnEHhIvsGg9tlfID5Z2GmAmFcKIvdP5AflrcoV5qRsaTrIQDfIq4CeuN//o2J09ftum8zt2ROXxKa//D7BWxreKPNXWE+eCO96GxlJI6Ljsapttv5h/cGLfU33PfYVMLDhgbAbsiAHdZDrESTtaX0fFaM5L2/xEcnBMH7/C0Wnu731lO3qGImsmJYEltgx6BUgNFpCgv1F1GaKu4QgWoXAED3pd5BDOO9xcRS5kLJKce1memaVnUmsq9W1/4JetHCQJPWC5CPRRGGgY+7q936V//K9T+kubNCyhF3GJ2B4f5O14y4EN5k9xG/1FG1ZOXhhYb32GOcRmiFBOgLAbImfckrnQ2E5VaeHrgNeaTPxWe4fS/yUfG+vbNS0WsbNWqQIeTTG1WOUAme/D3g+Ub0XbOfmATccqGC4AUQvHj+MF34w++ro7Jr4Nf6BfS9p36tO/uyaGUejjy49Hvj6hZbYTJWJbXFPoO4zNDrVkg2GzgcYzmQu22c9VrroLDt6i2uHMdKODCG8ye4iPalNgvXdU7P/6G+S+UKXdfv218BbrxBxd2+XtJ1Mu665AAGmIAAPEgAAAA") no-repeat center/contain;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <div class="color-mode-selector">
+    <div class="custom-dropdown" id="colorDropdown">
+      <div class="dropdown-selected" id="dropdownSelected"><span class="soviet-flag"></span> Former USSR Origin %</div>
+      <div class="dropdown-menu" id="dropdownMenu">
+        <div class="dropdown-group-label">Origin</div>
+        <div class="dropdown-item selected" data-value="ussr_origin_pct"><span class="soviet-flag"></span> Former USSR Origin %</div>
+        <div class="dropdown-item" data-value="russia_origin_pct"><span class="flag">🇷🇺</span> Russia Origin %</div>
+        <div class="dropdown-item" data-value="ukraine_origin_pct"><span class="flag">🇺🇦</span> Ukraine Origin %</div>
+        <div class="dropdown-item" data-value="uzbekistan_origin_pct"><span class="flag">🇺🇿</span> Uzbekistan Origin %</div>
+        <div class="dropdown-item" data-value="belarus_origin_pct"><span class="flag">🇧🇾</span> Belarus Origin %</div>
+        <div class="dropdown-item" data-value="moldova_origin_pct"><span class="flag">🇲🇩</span> Moldova Origin %</div>
+
+        <div class="dropdown-group-label">Birth</div>
+        <div class="dropdown-item" data-value="ussr_birth_pct"><span class="soviet-flag"></span> Former USSR Birth %</div>
+        <div class="dropdown-item" data-value="russia_birth_pct"><span class="flag">🇷🇺</span> Russia Birth %</div>
+        <div class="dropdown-item" data-value="ukraine_birth_pct"><span class="flag">🇺🇦</span> Ukraine Birth %</div>
+        <div class="dropdown-item" data-value="uzbekistan_birth_pct"><span class="flag">🇺🇿</span> Uzbekistan Birth %</div>
+        <div class="dropdown-item" data-value="belarus_birth_pct"><span class="flag">🇧🇾</span> Belarus Birth %</div>
+        <div class="dropdown-item" data-value="moldova_birth_pct"><span class="flag">🇲🇩</span> Moldova Birth %</div>
+
+        <div class="dropdown-group-label">USSR + Post-Soviet Combined</div>
+        <div class="dropdown-item" data-value="soviet_origin_pct"><span class="soviet-flag"></span> USSR + Post-Soviet Origin %</div>
+        <div class="dropdown-item" data-value="soviet_birth_pct"><span class="soviet-flag"></span> USSR + Post-Soviet Birth %</div>
+
+      </div>
+    </div>
+    <div class="legend-bar" id="legendBar"></div>
+    <div class="legend-labels">
+      <span id="legendMin">0%</span>
+      <span id="legendMax">30%</span>
+    </div>
+    <div class="top-areas">
+      <div class="top-areas-title">Top 20 areas:</div>
+      <div id="topAreasList" class="top-areas-list"></div>
+    </div>
+  </div>
+
+  <script>
+    // Enable RTL text support for Hebrew/Arabic
+    maplibregl.setRTLTextPlugin(
+      'https://unpkg.com/@mapbox/mapbox-gl-rtl-text@0.2.3/mapbox-gl-rtl-text.min.js',
+      null,
+      true // lazy load
+    );
+
+    // Register PMTiles protocol
+    const protocol = new pmtiles.Protocol();
+    maplibregl.addProtocol('pmtiles', protocol.tile);
+
+    // Color mode configurations - all use red color scale
+    const redColors = ['#fff5f0', '#fee0d2', '#fc9272', '#fb6a4a', '#de2d26', '#a50f15'];
+    const colorModes = {
+      'soviet_origin_pct': {
+        field: 'soviet_origin_pct',
+        max: 90,
+        colors: redColors,
+        stops: [0, 15, 30, 45, 60, 90]
+      },
+      'soviet_birth_pct': {
+        field: 'soviet_birth_pct',
+        max: 85,
+        colors: redColors,
+        stops: [0, 15, 30, 45, 60, 85]
+      },
+      'russia_origin_pct': {
+        field: 'russia_origin_pct',
+        max: 40,
+        colors: redColors,
+        stops: [0, 8, 16, 24, 32, 40]
+      },
+      'russia_birth_pct': {
+        field: 'russia_birth_pct',
+        max: 60,
+        colors: redColors,
+        stops: [0, 12, 24, 36, 48, 60]
+      },
+      'ussr_origin_pct': {
+        field: 'ussr_origin_pct',
+        max: 20,
+        colors: redColors,
+        stops: [0, 4, 8, 12, 16, 20]
+      },
+      'ussr_birth_pct': {
+        field: 'ussr_birth_pct',
+        max: 30,
+        colors: redColors,
+        stops: [0, 6, 12, 18, 24, 30]
+      },
+      'ukraine_origin_pct': {
+        field: 'ukraine_origin_pct',
+        max: 40,
+        colors: redColors,
+        stops: [0, 8, 16, 24, 32, 40]
+      },
+      'ukraine_birth_pct': {
+        field: 'ukraine_birth_pct',
+        max: 40,
+        colors: redColors,
+        stops: [0, 8, 16, 24, 32, 40]
+      },
+      'uzbekistan_origin_pct': {
+        field: 'uzbekistan_origin_pct',
+        max: 25,
+        colors: redColors,
+        stops: [0, 5, 10, 15, 20, 25]
+      },
+      'uzbekistan_birth_pct': {
+        field: 'uzbekistan_birth_pct',
+        max: 30,
+        colors: redColors,
+        stops: [0, 6, 12, 18, 24, 30]
+      },
+      'belarus_origin_pct': {
+        field: 'belarus_origin_pct',
+        max: 15,
+        colors: redColors,
+        stops: [0, 3, 6, 9, 12, 15]
+      },
+      'belarus_birth_pct': {
+        field: 'belarus_birth_pct',
+        max: 20,
+        colors: redColors,
+        stops: [0, 4, 8, 12, 16, 20]
+      },
+      'moldova_origin_pct': {
+        field: 'moldova_origin_pct',
+        max: 10,
+        colors: redColors,
+        stops: [0, 2, 4, 6, 8, 10]
+      },
+      'moldova_birth_pct': {
+        field: 'moldova_birth_pct',
+        max: 12,
+        colors: redColors,
+        stops: [0, 2, 4, 6, 8, 12]
+      }
+    };
+
+    let currentMode = 'ussr_origin_pct';
+    let topAreasData = {};
+
+    // Load GeoJSON for top areas calculation
+    fetch('statistical_areas_2022/statistical_areas.geojson')
+      .then(r => r.json())
+      .then(geojson => {
+        // Pre-calculate top 5 for each mode
+        for (const mode of Object.keys(colorModes)) {
+          const field = colorModes[mode].field;
+          const sorted = geojson.features
+            .filter(f => f.properties[field] != null)
+            .map(f => ({
+              name: f.properties.SHEM_YIS_1 || f.properties.SHEM_YISHU || 'Unknown',
+              value: f.properties[field],
+              center: getCentroid(f.geometry)
+            }))
+            .sort((a, b) => b.value - a.value)
+            .slice(0, 20);
+          topAreasData[mode] = sorted;
+        }
+        updateTopAreas('ussr_origin_pct');
+      });
+
+    function getCentroid(geometry) {
+      let coords = [];
+      if (geometry.type === 'Polygon') {
+        coords = geometry.coordinates[0];
+      } else if (geometry.type === 'MultiPolygon') {
+        coords = geometry.coordinates[0][0];
+      }
+      let x = 0, y = 0;
+      for (const [lng, lat] of coords) {
+        x += lng; y += lat;
+      }
+      return [x / coords.length, y / coords.length];
+    }
+
+    function updateTopAreas(mode) {
+      const list = document.getElementById('topAreasList');
+      const areas = topAreasData[mode] || [];
+      document.querySelector('.top-areas-title').textContent = `Top ${areas.length} areas:`;
+      list.innerHTML = areas.map((a, i) =>
+        `<button class="top-area-btn" data-lng="${a.center[0]}" data-lat="${a.center[1]}">
+          ${i + 1}. ${a.name} <span class="pct">${a.value.toFixed(1)}%</span>
+        </button>`
+      ).join('');
+
+      list.querySelectorAll('.top-area-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const lng = parseFloat(btn.dataset.lng);
+          const lat = parseFloat(btn.dataset.lat);
+          map.flyTo({ center: [lng, lat], zoom: 14 });
+        });
+      });
+    }
+
+    function buildFillColor(mode) {
+      const config = colorModes[mode];
+      const interpolateExpr = ['interpolate', ['linear'], ['get', config.field]];
+      for (let i = 0; i < config.stops.length; i++) {
+        interpolateExpr.push(config.stops[i], config.colors[i]);
+      }
+      return [
+        'case',
+        ['==', ['get', config.field], null],
+        '#cccccc',
+        interpolateExpr
+      ];
+    }
+
+    function buildFillOpacity(mode) {
+      const config = colorModes[mode];
+      return [
+        'case',
+        ['==', ['get', config.field], null],
+        0.2,
+        0.7
+      ];
+    }
+
+    function updateLegend(mode) {
+      const config = colorModes[mode];
+      document.getElementById('legendMax').textContent = config.max + '%';
+      const gradient = config.colors.join(', ');
+      document.getElementById('legendBar').style.background = `linear-gradient(to right, ${gradient})`;
+    }
+
+    const map = new maplibregl.Map({
+      container: 'map',
+      style: 'https://tiles.openfreemap.org/styles/liberty',
+      center: [34.85, 31.5],
+      zoom: 7,
+      minZoom: 5,
+      maxZoom: 16
+    });
+
+    // Add statistical areas layer after base map loads
+    map.on('load', () => {
+      map.addSource('statistical-areas', {
+        type: 'vector',
+        url: 'pmtiles://statistical_areas_2022/statistical_areas.pmtiles'
+      });
+
+      // Find the first label layer to insert our layers below it
+      const layers = map.getStyle().layers;
+      let firstLabelLayer;
+      for (const layer of layers) {
+        if (layer.type === 'symbol' && layer.layout && layer.layout['text-field']) {
+          firstLabelLayer = layer.id;
+          break;
+        }
+      }
+
+      map.addLayer({
+        id: 'statistical-areas-fill',
+        type: 'fill',
+        source: 'statistical-areas',
+        'source-layer': 'statistical_areas',
+        paint: {
+          'fill-color': buildFillColor('ussr_origin_pct'),
+          'fill-opacity': buildFillOpacity('ussr_origin_pct')
+        }
+      }, firstLabelLayer);
+
+      map.addLayer({
+        id: 'statistical-areas-outline',
+        type: 'line',
+        source: 'statistical-areas',
+        'source-layer': 'statistical_areas',
+        paint: {
+          'line-color': '#000000',
+          'line-width': 1
+        }
+      }, firstLabelLayer);
+
+      // Change cursor on hover
+      map.on('mouseenter', 'statistical-areas-fill', () => {
+        map.getCanvas().style.cursor = 'pointer';
+      });
+
+      map.on('mouseleave', 'statistical-areas-fill', () => {
+        map.getCanvas().style.cursor = '';
+      });
+
+      // Click handler for popups
+      map.on('click', 'statistical-areas-fill', (e) => {
+        if (!e.features || e.features.length === 0) return;
+
+        const props = e.features[0].properties;
+
+        // Build popup content
+        let html = `<div class="popup-title">${props.SHEM_YISHU || props.SHEM_YIS_1 || 'Statistical Area'}</div>`;
+
+        const fields = [
+          ['SHEM_YIS_1', 'English Name'],
+          ['soviet_origin_pct', 'USSR + Post-Soviet Origin'],
+          ['soviet_birth_pct', 'USSR + Post-Soviet Birth'],
+          ['russia_origin_pct', '🇷🇺 Russia Origin'],
+          ['russia_birth_pct', '🇷🇺 Russia Birth'],
+          ['ukraine_origin_pct', '🇺🇦 Ukraine Origin'],
+          ['ukraine_birth_pct', '🇺🇦 Ukraine Birth'],
+          ['ussr_origin_pct', '<span class="soviet-flag"></span> USSR Origin'],
+          ['ussr_birth_pct', '<span class="soviet-flag"></span> USSR Birth'],
+          ['uzbekistan_origin_pct', '🇺🇿 Uzbekistan Origin'],
+          ['uzbekistan_birth_pct', '🇺🇿 Uzbekistan Birth'],
+          ['belarus_origin_pct', '🇧🇾 Belarus Origin'],
+          ['belarus_birth_pct', '🇧🇾 Belarus Birth'],
+          ['moldova_origin_pct', '🇲🇩 Moldova Origin'],
+          ['moldova_birth_pct', '🇲🇩 Moldova Birth']
+        ];
+
+        for (const [key, label] of fields) {
+          const val = props[key];
+          // Skip zero values for country-specific fields
+          if (key.includes('_pct') && key !== 'soviet_origin_pct' && key !== 'soviet_birth_pct' && (!val || val === 0)) continue;
+          if (val !== undefined && val !== null) {
+            const value = key.includes('perc') || key.includes('pct') ? val.toFixed(1) + '%' : val;
+            html += `<div class="popup-row">
+              <span class="popup-label">${label}:</span>
+              <span class="popup-value">${value}</span>
+            </div>`;
+          }
+        }
+
+        new maplibregl.Popup()
+          .setLngLat(e.lngLat)
+          .setHTML(html)
+          .addTo(map);
+      });
+    });
+
+    // Custom dropdown logic
+    const dropdownSelected = document.getElementById('dropdownSelected');
+    const dropdownMenu = document.getElementById('dropdownMenu');
+    const dropdownItems = document.querySelectorAll('.dropdown-item');
+
+    dropdownSelected.addEventListener('click', () => {
+      dropdownMenu.classList.toggle('open');
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.custom-dropdown')) {
+        dropdownMenu.classList.remove('open');
+      }
+    });
+
+    function updateMapStyle(mode) {
+      if (!map.loaded() || !map.getLayer('statistical-areas-fill')) {
+        // Retry after a short delay if map isn't ready
+        setTimeout(() => updateMapStyle(mode), 100);
+        return;
+      }
+      try {
+        map.setPaintProperty('statistical-areas-fill', 'fill-color', buildFillColor(mode));
+        map.setPaintProperty('statistical-areas-fill', 'fill-opacity', buildFillOpacity(mode));
+      } catch (e) {
+        console.error('Error updating map style:', e);
+      }
+    }
+
+    dropdownItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const value = item.dataset.value;
+        currentMode = value;
+
+        // Update selected display
+        dropdownSelected.innerHTML = item.innerHTML;
+
+        // Update selected state
+        dropdownItems.forEach(i => i.classList.remove('selected'));
+        item.classList.add('selected');
+
+        // Close menu
+        dropdownMenu.classList.remove('open');
+
+        // Update map and legend
+        updateMapStyle(currentMode);
+        updateLegend(currentMode);
+        updateTopAreas(currentMode);
+      });
+    });
+
+    // Fit to Israel bounds on load
+    const israelBounds = [[34.2, 29.5], [35.9, 33.3]];
+    map.fitBounds(israelBounds, { padding: 20 });
+
+    // Initialize legend
+    updateLegend('ussr_origin_pct');
+  </script>
+</body>
+</html>

@@ -276,8 +276,9 @@
         <div class="dropdown-item" data-value="population"><span class="flag">👥</span> Population</div>
         <div class="dropdown-item" data-value="median_age"><span class="flag">📅</span> Median Age</div>
         <div class="dropdown-item" data-value="elderly_pct"><span class="flag">👴</span> Elderly (65+) %</div>
+        <div class="dropdown-item" data-value="very_elderly_pct"><span class="flag">👵</span> Very Elderly (75+) %</div>
 
-        <div class="dropdown-group-label">Survivor Finder</div>
+        <div class="dropdown-group-label">Survivor Finder (75+ × Soviet birth)</div>
         <div class="dropdown-item" data-value="survivor_score"><span class="flag">🔍</span> Survivor Score</div>
 
       </div>
@@ -429,12 +430,20 @@
         unit: '',
         formatValue: v => v.toLocaleString()
       },
+      // Very elderly (75+ in 2022 = born before 1947)
+      'very_elderly_pct': {
+        field: 'very_elderly_pct',
+        max: 30,
+        colors: ['#f7f4f9', '#e7e1ef', '#d4b9da', '#c994c7', '#dd1c77', '#980043'],
+        stops: [0, 5, 10, 15, 20, 30],
+        unit: '%'
+      },
       // Survivor finder
       'survivor_score': {
         field: 'survivor_score',
-        max: 300,
+        max: 500,
         colors: ['#fff5eb', '#fee6ce', '#fdd0a2', '#fdae6b', '#f16913', '#8c2d04'],
-        stops: [0, 50, 100, 150, 200, 300],
+        stops: [0, 80, 160, 250, 350, 500],
         unit: '',
         formatValue: v => v.toFixed(0)
       }
@@ -468,8 +477,8 @@
 
       // Add extra context for survivor-related modes
       const formatExtra = (a) => {
-        if (mode === 'survivor_score' && a.elderly_pct !== undefined) {
-          return `<br><small style="color:#888">Pop: ${a.population?.toLocaleString() || '?'}, Elderly: ${a.elderly_pct}%, Soviet: ${a.soviet_birth_pct}%</small>`;
+        if (mode === 'survivor_score' && a.very_elderly_pct !== undefined) {
+          return `<br><small style="color:#888">Pop: ${a.population?.toLocaleString() || '?'}, 75+: ${a.very_elderly_pct}%, Soviet: ${a.soviet_birth_pct}%</small>`;
         }
         if ((mode === 'soviet_origin_count' || mode === 'soviet_birth_count') && a.population !== undefined) {
           return `<br><small style="color:#888">Pop: ${a.population?.toLocaleString() || '?'}</small>`;
@@ -616,6 +625,7 @@
               ['population', '👥 Population', v => v.toLocaleString()],
               ['median_age', '📅 Median Age', v => v.toFixed(0) + ' years'],
               ['elderly_pct', '👴 Elderly (65+)', v => v.toFixed(1) + '%'],
+              ['very_elderly_pct', '👵 Very Elderly (75+)', v => v.toFixed(1) + '%'],
               ['survivor_score', '🔍 Survivor Score', v => v.toFixed(0)]
             ];
 

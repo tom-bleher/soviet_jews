@@ -38,7 +38,7 @@ COLOR_MODES = [
     "belarus_origin_pct", "belarus_birth_pct",
     "moldova_origin_pct", "moldova_birth_pct",
     # Demographic modes
-    "population", "median_age", "elderly_pct",
+    "population", "median_age", "elderly_pct", "very_elderly_pct",
     # Absolute counts
     "soviet_origin_count", "soviet_birth_count",
     # Survivor finder (combined score)
@@ -89,6 +89,7 @@ def init_entry():
     entry["population"] = 0
     entry["median_age"] = 0.0
     entry["elderly_pct"] = 0.0
+    entry["very_elderly_pct"] = 0.0  # 75+ in 2022 census = born before 1947
     entry["soviet_origin_count"] = 0
     entry["soviet_birth_count"] = 0
     entry["survivor_score"] = 0.0
@@ -130,6 +131,16 @@ def process_row(row):
                 elderly_pct += val
     entry["elderly_pct"] = round(elderly_pct, 1)
 
+    # Very elderly (75+ in 2022 = born before 1947, includes Stalinist-era survivors)
+    # Cols 40 and 49 are the oldest age brackets
+    very_elderly_pct = 0.0
+    for col in [40, 49]:
+        if len(row) > col:
+            val = parse_float(row[col])
+            if val:
+                very_elderly_pct += val
+    entry["very_elderly_pct"] = round(very_elderly_pct, 1)
+
     # Origin columns (4 countries): cols 61,62,63,64,65,66,67,68
     for i in range(4):
         key, val = extract_country_pct(row, 61 + i * 2, 62 + i * 2, "origin_pct")
@@ -159,12 +170,12 @@ def process_row(row):
             entry["population"] * entry["soviet_birth_pct"] / 100
         )
 
-    # Calculate survivor score: combines elderly % and Soviet birth %
+    # Calculate survivor score: combines very elderly % (75+ = born before 1947) and Soviet birth %
     # Higher score = more likely to find Stalinist-era survivors
-    # Formula: (elderly_pct * soviet_birth_pct) / 100, weighted by having both
-    if entry["elderly_pct"] > 0 and entry["soviet_birth_pct"] > 0:
+    # Uses very_elderly (75+) not just elderly (65+) for better targeting
+    if entry["very_elderly_pct"] > 0 and entry["soviet_birth_pct"] > 0:
         entry["survivor_score"] = round(
-            (entry["elderly_pct"] * entry["soviet_birth_pct"]) / 10, 1
+            (entry["very_elderly_pct"] * entry["soviet_birth_pct"]) / 10, 1
         )
 
     return yishuv_sta, entry
@@ -238,6 +249,7 @@ def compute_top_areas(geojson):
                 if mode in ["survivor_score", "soviet_birth_count", "soviet_origin_count"]:
                     area_data["population"] = props.get("population", 0)
                     area_data["elderly_pct"] = props.get("elderly_pct", 0)
+                    area_data["very_elderly_pct"] = props.get("very_elderly_pct", 0)
                     area_data["soviet_birth_pct"] = props.get("soviet_birth_pct", 0)
                     area_data["median_age"] = props.get("median_age", 0)
                 areas.append(area_data)
